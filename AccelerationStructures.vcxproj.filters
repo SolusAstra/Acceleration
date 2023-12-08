@@ -21,25 +21,34 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AccelerationStructure.h">
+    <ClInclude Include="include\env\Primitive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Primitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Particle.h">
+    <ClInclude Include="include\env\Particle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\env\Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AccelerationStructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\Node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bvh_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\BVH.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\bvh_util.h">
+    <ClInclude Include="include\BruteForce.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

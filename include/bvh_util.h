@@ -5,42 +5,42 @@
 #include <numeric>
 #include <functional>
 
-#include "Primitive.h"
+#include "env/Primitive.h"
+#include "env/Triangle.h"
+#include "env/Particle.h"
 #include "AABB.h"
 
 
 
-
-
-template <typename T>
-void sortAlongX(const Primitive<T>& p, std::vector<int>& indices)
+void sortAlongX(Primitive* p, std::vector<int>& indices)
 {
 	std::sort(indices.begin(), indices.end(), [&p](int a, int b) {
-		return p.vertex[a].x < p.vertex[b].x;
+		return p->vertex[a].x < p->vertex[b].x;
 		});
 }
 
-template <typename T>
-void sortAlongY(const Primitive<T>& p, std::vector<int>& indices)
+
+void sortAlongY(Primitive* p, std::vector<int>& indices)
 {
 	std::sort(indices.begin(), indices.end(), [&p](int a, int b) {
-		return p.vertex[a].y < p.vertex[b].y;
+		return p->vertex[a].y < p->vertex[b].y;
 		});
 }
 
-void sortAlongZ(const Primitive<float3>& p, std::vector<int>& srtIdx)
+void sortAlongZ(Primitive* p, std::vector<int>& srtIdx)
 {
 	std::sort(srtIdx.begin(), srtIdx.end(), [&p](int a, int b) {
-		return p.vertex[a].z < p.vertex[b].z;
+		return p->vertex[a].z < p->vertex[b].z;
 		});
 }
 
 
 struct Idx {
 	std::vector<std::vector<int>> data;
-	//std::vector<std::vector<int>> sortedData;
-	const int N;
-	const int M;
+	int N;
+	int M;
+
+    Idx() {}
 
 	Idx(int N, int M) : N(N), M(M) {
 		data.resize(N);
@@ -51,27 +51,24 @@ struct Idx {
 		}
 	}
 
+    static Idx rankPrimitives(Primitive* primitive) {
+
+        Primitive* reducedPrimitive = primitive->reduceToPrimitive();
+        Idx rankedIdx(3, reducedPrimitive->N);
+        return rankedIdx;
+    }
+
 	std::vector<int>& operator()(int axis) { return data[axis]; }
 	int& operator()(int axis, int element) { return data[axis][element]; }
 
-	template <typename T>
-	void rank(const Primitive<T>& p);
-
-	template<typename T>
-	void sort(const Primitive<T>& p) {}
-	template<>
-	void sort<float2>(const Primitive<float2>& p);
-	template<>
-	void sort<float3>(const Primitive<float3>& p);
-
+	void rank(Primitive* p);
+    void sort(Primitive* p);
+	
 };
 
 
 
-
-
-template<typename T>
-inline void Idx::rank(const Primitive<T>& p) {
+inline void Idx::rank(Primitive* p) {
 
 	// Sort pitives
 	sort(p);
@@ -87,14 +84,9 @@ inline void Idx::rank(const Primitive<T>& p) {
 	this->data.swap(temp.data);
 }
 
-template<>
-void Idx::sort<float2>(const Primitive<float2>& p) {
-	sortAlongX(p, this->data[0]);
-	sortAlongY(p, this->data[1]);
-}
 
-template<>
-void Idx::sort<float3>(const Primitive<float3>& p) {
+
+void Idx::sort(Primitive* p) {
 	sortAlongX(p, this->data[0]);
 	sortAlongY(p, this->data[1]);
 	sortAlongZ(p, this->data[2]);

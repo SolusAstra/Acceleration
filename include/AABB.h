@@ -1,6 +1,7 @@
 #pragma once
 #include <sutil\vec_math.h>
 #include <vector>
+#include "Ray.h"
 
 class AABBBase {
 public:
@@ -8,31 +9,55 @@ public:
 	// Define common interface for AABB operations
 };
 
-template <typename T>
+
 class AABB : public AABBBase {
 public:
-	T min;
-	T max;
+    float3 min = make_float3(0.0f);
+    float3 max = make_float3(0.0f);
 
 	AABB() {}
-	AABB(const T& min, const T& max) : min(min), max(max) {}
+	AABB(const float3& min, const float3& max) : min(min), max(max) {}
+
+    bool hit(const Trace::Ray r, float t_min, float t_max) {
+
+        // For each axis x, y, z
+        float t0, t1;
+
+        // X-axis
+        float invDx = 1.0f / r.dir.x;
+        t0 = (min.x - r.org.x) * invDx;
+        t1 = (max.x - r.org.x) * invDx;
+        if (invDx < 0.0f) std::swap(t0, t1);
+        t_min = t0 > t_min ? t0 : t_min;
+        t_max = t1 < t_max ? t1 : t_max;
+        if (t_max <= t_min) return false;
+
+        // Y-axis
+        float invDy = 1.0f / r.dir.y;
+        t0 = (min.y - r.org.y) * invDy;
+        t1 = (max.y - r.org.y) * invDy;
+        if (invDy < 0.0f) std::swap(t0, t1);
+        t_min = t0 > t_min ? t0 : t_min;
+        t_max = t1 < t_max ? t1 : t_max;
+        if (t_max <= t_min) return false;
+
+        // Z-axis
+        float invDz = 1.0f / r.dir.z;
+        t0 = (min.z - r.org.z) * invDz;
+        t1 = (max.z - r.org.z) * invDz;
+        if (invDz < 0.0f) std::swap(t0, t1);
+        t_min = t0 > t_min ? t0 : t_min;
+        t_max = t1 < t_max ? t1 : t_max;
+        if (t_max <= t_min) return false;
+
+        return true;
+
+
+    }
 };
 
-template <typename T>
-inline int longestAxis(const AABB<T>& box) {
-	// Compute longest axis of a bounding box (specific to float 2)
-	T diff = box.max - box.min;
-	if (diff.x >= diff.y) {
-		return 0; // x-axis is longest
-	}
-	else {
-		return 1; // y-axis is longest
-	}
 
-}
-
-template <>
-inline int longestAxis(const AABB<float3>& box) {
+inline int longestAxis(const AABB& box) {
 	// Compute longest axis of a bounding box (specific to float 3)
 	float3 diff = box.max - box.min;
 	if (diff.x >= diff.y && diff.x >= diff.z) {
@@ -48,21 +73,19 @@ inline int longestAxis(const AABB<float3>& box) {
 }
 
 // Create a bounding box that surrounds a single point
-template <typename T>
-inline AABB<T> surrounding(const T& point) {
-	AABB<T> box(point, point);
+
+inline AABB surrounding(const float3& point) {
+	AABB box(point, point);
 	return box;
 }
 
-template <typename T>
-inline AABB<T> surrounding(const AABB<T>& boxA, const AABB<T>& boxB) {
-	return AABB<T>(fminf(boxA.min, boxB.min), fmaxf(boxA.max, boxB.max));	
+inline AABB surrounding(const AABB& boxA, const AABB& boxB) {
+	return AABB(fminf(boxA.min, boxB.min), fmaxf(boxA.max, boxB.max));	
 }
 
 // Create a bounding box that surrounds two points
-template <typename T>
-inline AABB<T> surrounding(const std::vector<T>& points) {
-	AABB<T> box;
+inline AABB surrounding(const std::vector<float3>& points) {
+	AABB box;
 	box.min = points[0];
 	box.max = points[0];
 	for( int i = 1; i < points.size(); i++ ) {
@@ -71,15 +94,3 @@ inline AABB<T> surrounding(const std::vector<T>& points) {
 	}
 	return box;
 }
-
-// Create a bounding box that surrounds two points
-template <typename T>
-inline AABB<T> surrounding(const std::vector<T>& points, std::vector<int> subset) {
-	AABB<T> box(points[subset[0]], points[subset[0]]);
-	for (int i = 1; i < subset.size(); i++) {
-		box = surrounding(box, points[subset[i]]);
-	}
-	return box;
-}
-
-

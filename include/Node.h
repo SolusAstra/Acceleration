@@ -5,7 +5,7 @@
 #include "sutil\vec_math.h"
 
 #include "bvh_util.h"
-#include "Primitive.h"
+#include "env/Primitive.h"
 #include "AABB.h"
 
 // include for std::stack
@@ -18,7 +18,7 @@ int getRandomAxis() {
 	// Static generator to avoid reseeding
 	static std::random_device rd;
 	static std::mt19937 gen(rd());
-	static std::uniform_real_distribution<float> randInt(0, 2);
+	static std::uniform_real_distribution<float> randInt(0, 3);
 	return (int)randInt(gen);
 }
 
@@ -45,7 +45,7 @@ enum BRANCH_STRATEGY {
 	EQUAL_COUNTS
 };
 
-template <typename T>
+
 class Node {
 
 public:
