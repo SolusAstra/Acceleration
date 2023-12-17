@@ -21,34 +21,40 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\env\Primitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\env\Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\env\Triangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Ray.h">
+    <ClInclude Include="include\primitive\Triangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\AccelerationStructure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node.h">
+    <ClInclude Include="include\bvh\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\bvh_util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\BVH.h">
+    <ClInclude Include="include\bvh\Bvh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\BruteForce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\SpatialIndexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\rng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\primitive\GeometricPrimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\primitive\Centroid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bvh\SplitStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bvh\helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

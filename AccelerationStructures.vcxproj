@@ -72,20 +72,17 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>
-        $(SolutionDir);
-        $(SolutionDir)include;
-        $(SolutionDir)..\..\dependencies;
-        $(CudaToolkitDir)\include;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\include;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\cuda;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\build\include;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\build;</AdditionalIncludeDirectories>
+      $(ProjectDir);
+      $(ProjectDir)include;
+      $(SolutionDir)..\..\dependencies;$(CudaToolkitDir)\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\cuda;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\build\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\build</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <CudaCompile>
+      <GenerateRelocatableDeviceCode>false</GenerateRelocatableDeviceCode>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -98,16 +95,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>
-        $(SolutionDir);
-        $(SolutionDir)include;
-        $(SolutionDir)..\..\dependencies;
-        $(CudaToolkitDir)\include;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\include;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\cuda;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\build\include;
-        C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\build;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)include;$(SolutionDir)..\..\dependencies;$(CudaToolkitDir)\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\cuda;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\build\include;C:\ProgramData\NVIDIA Corporation\OptiX SDK 7.7.0\SDK\build</AdditionalIncludeDirectories>
       <AdditionalOptions>/arch:AVX2 /Qpar /GL</AdditionalOptions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -124,19 +112,24 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
     </Link>
+    <CudaCompile>
+      <GenerateRelocatableDeviceCode>false</GenerateRelocatableDeviceCode>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="include\AABB.h" />
     <ClInclude Include="include\AccelerationStructure.h" />
     <ClInclude Include="include\BruteForce.h" />
-    <ClInclude Include="include\BVH.h" />
-    <ClInclude Include="include\bvh_util.h" />
-    <ClInclude Include="include\env\Particle.h" />
-    <ClInclude Include="include\env\Primitive.h" />
-    <ClInclude Include="include\Node.h" />
-    <ClInclude Include="include\Ray.h" />
-    <ClInclude Include="include\env\Triangle.h" />
+    <ClInclude Include="include\bvh\Bvh.h" />
+    <ClInclude Include="include\bvh\helper.h" />
+    <ClInclude Include="include\bvh\SplitStrategy.h" />
+    <ClInclude Include="include\bvh\Node.h" />
+    <ClInclude Include="include\primitive\Centroid.h" />
+    <ClInclude Include="include\primitive\GeometricPrimitive.h" />
+    <ClInclude Include="include\primitive\Triangle.h" />
+    <ClInclude Include="include\util\rng.h" />
+    <ClInclude Include="include\util\SpatialIndexer.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

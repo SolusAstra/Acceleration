@@ -1,59 +1,16 @@
 #pragma once
-#include <sutil\vec_math.h>
 #include <vector>
-#include "Ray.h"
+#include <sutil\vec_math.h>
 
-class AABBBase {
-public:
-	virtual ~AABBBase() {}
-	// Define common interface for AABB operations
-};
-
-
-class AABB : public AABBBase {
+class AABB {
 public:
     float3 min = make_float3(0.0f);
     float3 max = make_float3(0.0f);
 
 	AABB() {}
+    AABB(const float3& vertex) : min(vertex), max(vertex) {}
 	AABB(const float3& min, const float3& max) : min(min), max(max) {}
 
-    bool hit(const Trace::Ray r, float t_min, float t_max) {
-
-        // For each axis x, y, z
-        float t0, t1;
-
-        // X-axis
-        float invDx = 1.0f / r.dir.x;
-        t0 = (min.x - r.org.x) * invDx;
-        t1 = (max.x - r.org.x) * invDx;
-        if (invDx < 0.0f) std::swap(t0, t1);
-        t_min = t0 > t_min ? t0 : t_min;
-        t_max = t1 < t_max ? t1 : t_max;
-        if (t_max <= t_min) return false;
-
-        // Y-axis
-        float invDy = 1.0f / r.dir.y;
-        t0 = (min.y - r.org.y) * invDy;
-        t1 = (max.y - r.org.y) * invDy;
-        if (invDy < 0.0f) std::swap(t0, t1);
-        t_min = t0 > t_min ? t0 : t_min;
-        t_max = t1 < t_max ? t1 : t_max;
-        if (t_max <= t_min) return false;
-
-        // Z-axis
-        float invDz = 1.0f / r.dir.z;
-        t0 = (min.z - r.org.z) * invDz;
-        t1 = (max.z - r.org.z) * invDz;
-        if (invDz < 0.0f) std::swap(t0, t1);
-        t_min = t0 > t_min ? t0 : t_min;
-        t_max = t1 < t_max ? t1 : t_max;
-        if (t_max <= t_min) return false;
-
-        return true;
-
-
-    }
 };
 
 
@@ -73,9 +30,8 @@ inline int longestAxis(const AABB& box) {
 }
 
 // Create a bounding box that surrounds a single point
-
 inline AABB surrounding(const float3& point) {
-	AABB box(point, point);
+	AABB box(point);
 	return box;
 }
 
